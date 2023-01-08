@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "house-md"
+version = "0.1.0"
+description = "Application for remote controlling house equipment such as heaters, air conditioners and etc."
+authors = ["Max Kuznetsov <slonoten@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.28.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.flake8]
+ignore = ['E231', 'E241']
+per-file-ignores = [
+    '__init__.py:F401',
+]
+max-line-length = 100
+count = true
