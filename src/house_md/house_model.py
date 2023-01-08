@@ -24,14 +24,14 @@ class Room:
     """Room equipment model"""
 
     id: str
-    temperature: Optional[int] = None
-    heaters: List[Heater] = None
+    temperature: Optional[float] = None
+    heaters: List[Heater] | None = None
 
 
 @dataclass
 class HouseState:
     """House model"""
 
-    outside_temperature: int
+    outside_temperature: float
     power_supply: HousePowerSupply
     rooms: List[Room]

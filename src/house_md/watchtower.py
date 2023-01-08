@@ -24,10 +24,10 @@ class NotifierConfig:
 class Watchtower:
     """Compares two states and sends notification if needed"""
 
-    def __init__(self, messenger: Messenger, min_temp: int) -> None:
+    def __init__(self, messenger: Messenger, min_temp: float) -> None:
         self.messenger = messenger
         self.min_temp = min_temp
-        self.prev_state = None
+        self.prev_state: HouseState | None = None
 
     def check_state(self, state: HouseState) -> None:
         """Checks conditions and sends notifications if needed"""
@@ -41,8 +41,9 @@ class Watchtower:
         def report_problem() -> None:
             if not any(line_states):
                 self.messenger.report_problem("There is no input voltage")
-            off_lines = ", ".join(i + 1 for i, state in enumerate(line_states) if not state)
-            self.messenger.report_problem(f"There is no input voltage on line(s) {off_lines}")
+            else:
+                off_lines = ", ".join(f"{i + 1}" for i, state in enumerate(line_states) if not state)
+                self.messenger.report_problem(f"There is no input voltage on line(s) {off_lines}")
 
         if not self.prev_state:
             if all(line_states):
@@ -52,7 +53,7 @@ class Watchtower:
         else:
             if self.prev_state.power_supply.line_states != line_states:
                 if all(line_states):
-                    self.messenger.send_info("Input voltage restored")
+                    self.messenger.report_problem_fixed("Input voltage restored")
                 else:
                     report_problem()
 
